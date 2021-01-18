@@ -6,9 +6,10 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 function hoppla () {
     if (kvekk.isHittingTile(CollisionDirection.Bottom)) {
-        kvekk.vy = -200
+        kvekk.vy = -230
     }
 }
+let baboom: Sprite = null
 let kvekk: Sprite = null
 effects.starField.startScreenEffect()
 scene.setBackgroundColor(8)
@@ -34,3 +35,38 @@ kvekk = sprites.create(img`
 controller.moveSprite(kvekk, 100, 0)
 scene.cameraFollowSprite(kvekk)
 kvekk.ay = 500
+for (let value of tiles.getTilesByType(assets.tile`tile`)) {
+    baboom = sprites.create(img`
+        ...................cc...
+        ...............cccc63c..
+        ..............c633336c..
+        ..........cc.c6cc33333c.
+        .........b55c6c55c33333c
+        .........ff5c6c5ff33333c
+        .........ff5c6c5ff6333cc
+        .........b553c355c6666cc
+        ..........b55355c333333c
+        .........cc55555bcc3333c
+        ........c5545554b55c33c.
+        ........b54b4444bb5cbb..
+        ........c455b4b5554c45b.
+        ........c555c4c555c4c5c.
+        ........c5555c5555c4c5c.
+        .........ccccccccc..ccc.
+        `, SpriteKind.Enemy)
+    tiles.placeOnTile(baboom, value)
+    baboom.ay = 500
+}
+let enemyList = sprites.allOfKind(SpriteKind.Enemy)
+game.onUpdateInterval(1000, function () {
+    for (let value of enemyList) {
+        if (value.isHittingTile(CollisionDirection.Left) || value.isHittingTile(CollisionDirection.Right)) {
+            value.vy = -150
+        }
+    }
+})
+game.onUpdateInterval(100, function () {
+    for (let value of enemyList) {
+        value.vx = kvekk.x - value.x
+    }
+})
