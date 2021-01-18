@@ -4,14 +4,47 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     hoppla()
 })
+function gameOverKillScreen () {
+    effects.starField.endScreenEffect()
+    scene.setBackgroundColor(15)
+    tiles.setTilemap(tilemap`level2`)
+    controller.moveSprite(kvekk, 0, 0)
+    kvekk.ay = 0
+    kvekk.setVelocity(0, 0)
+    kvekk.setPosition(63, 77)
+    decoratio = sprites.create(img`
+        ...................cc...
+        ...............cccc63c..
+        ..............c633336c..
+        ..........cc.c6cc33333c.
+        .........b55c6c55c33333c
+        .........ff5c6c5ff33333c
+        .........ff5c6c5ff6333cc
+        .........b553c355c6666cc
+        ..........b55355c333333c
+        .........cc55555bcc3333c
+        ........c5545554b55c33c.
+        ........b54b4444bb5cbb..
+        ........c455b4b5554c45b.
+        ........c555c4c555c4c5c.
+        ........c5555c5555c4c5c.
+        .........ccccccccc..ccc.
+        `, SpriteKind.Projectile)
+    decoratio.setPosition(96, 77)
+    pause(2000)
+    decoratio.say("No e du dau.")
+    pause(5000)
+    game.over(false, effects.blizzard)
+}
 function hoppla () {
     if (kvekk.isHittingTile(CollisionDirection.Bottom)) {
         kvekk.vy = -230
     }
 }
 sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Player, function (sprite, otherSprite) {
-    game.over(false)
+    gameOverKillScreen()
 })
+let decoratio: Sprite = null
 let baboom: Sprite = null
 let kvekk: Sprite = null
 effects.starField.startScreenEffect()
@@ -38,7 +71,7 @@ kvekk = sprites.create(img`
 controller.moveSprite(kvekk, 100, 0)
 scene.cameraFollowSprite(kvekk)
 kvekk.ay = 500
-for (let value of tiles.getTilesByType(assets.tile`tile`)) {
+for (let value of tiles.getTilesByType(assets.tile`tile1`)) {
     baboom = sprites.create(img`
         ...................cc...
         ...............cccc63c..
