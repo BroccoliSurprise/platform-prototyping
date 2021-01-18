@@ -5,6 +5,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     hoppla()
 })
 function gameOverKillScreen () {
+    ikkeDau = false
     effects.starField.endScreenEffect()
     scene.setBackgroundColor(15)
     tiles.setTilemap(tilemap`level2`)
@@ -34,10 +35,12 @@ function gameOverKillScreen () {
     pause(2000)
     decoratio.say("No e du dau.")
     pause(5000)
-    game.over(false, effects.blizzard)
+    scene.setBackgroundColor(2)
+    pause(100)
+    game.over(false, effects.splatter)
 }
 function hoppla () {
-    if (kvekk.isHittingTile(CollisionDirection.Bottom)) {
+    if (kvekk.isHittingTile(CollisionDirection.Bottom) && ikkeDau == true) {
         kvekk.vy = -230
     }
 }
@@ -45,6 +48,7 @@ sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Player, function (sprite, otherSp
     gameOverKillScreen()
 })
 let decoratio: Sprite = null
+let ikkeDau = false
 let baboom: Sprite = null
 let kvekk: Sprite = null
 effects.starField.startScreenEffect()
@@ -94,6 +98,7 @@ for (let value of tiles.getTilesByType(assets.tile`tile1`)) {
     baboom.ay = 500
 }
 let enemyList = sprites.allOfKind(SpriteKind.Enemy)
+ikkeDau = true
 game.onUpdateInterval(1000, function () {
     for (let value of enemyList) {
         if (value.isHittingTile(CollisionDirection.Left) || value.isHittingTile(CollisionDirection.Right)) {
