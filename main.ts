@@ -9,6 +9,9 @@ function hoppla () {
         kvekk.vy = -230
     }
 }
+sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Player, function (sprite, otherSprite) {
+    game.over(false)
+})
 let baboom: Sprite = null
 let kvekk: Sprite = null
 effects.starField.startScreenEffect()
