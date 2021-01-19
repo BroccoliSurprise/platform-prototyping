@@ -1,4 +1,4 @@
- 
+ Written with /beta version of MakeCode, fails to properly import tile from "assets".
 
 
 > Open this page at [https://broccolisurprise.github.io/platform-prototyping/](https://broccolisurprise.github.io/platform-prototyping/)
